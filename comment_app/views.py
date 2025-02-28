@@ -1,0 +1,16 @@
+from django.shortcuts import render, post, redirect
+from .form import CommentForm
+# Create your views here.
+
+def post_detailview(request, id):
+    if request.method == 'POST':
+        cf = CommentForm(request.POST or None)
+        if cf.is_valid():
+            content = request.POST.get('content')
+            comment = comment.objects.create(post=post, user=request.user, content=content)
+            comment.save()
+            return redirect(post.get_absolute_url())
+        else:
+            cf = CommentForm()
+            context = {'comment_form': cf,}
+            return render(request, 'socio / post_detail.html', context)
